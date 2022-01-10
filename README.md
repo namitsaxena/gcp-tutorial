@@ -117,3 +117,9 @@ Notes and command line for testing basic features
 	├─sdb1   8:17   0  200M  0 part /boot/efi
 	└─sdb2   8:18   0 19.8G  0 part /
   ```  
+
+* Run a container on a VM: using a very cheap instance for this ()$2.23/hr. This will run a simple [NGINX hello](https://hub.docker.com/r/nginxdemos/hello/) container.
+  ```
+  gcloud compute instances create-with-container instance-1 --project=nsx-sandbox --zone=us-central1-a --machine-type=e2-micro --network-interface=network-tier=PREMIUM,subnet=default --no-restart-on-failure --maintenance-policy=TERMINATE --preemptible --service-account=600132130055-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --tags=http-server --image=projects/cos-cloud/global/images/cos-81-12871-1317-7 --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=instance-1 --container-image=nginxdemos/hello --container-restart-policy=always --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=container-vm=cos-81-12871-1317-7
+  ```
+
