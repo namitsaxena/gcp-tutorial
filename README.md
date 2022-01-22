@@ -1,4 +1,6 @@
 # GCP Tutorial
 
 ## Index
+* [CLI](CLI.md)
 * [Virtual Machines](VM.md)
+* [GKE](GKE.md)
