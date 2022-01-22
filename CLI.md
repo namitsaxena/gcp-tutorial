@@ -2,6 +2,12 @@
 
 ## gcloud
 
+* configuration
+  ```
+  gcloud config list
+  gcloud config set compute/zone us-central1-b
+  ```
+
 * List the account your are authenticated to
   ```
   | => gcloud auth list
