@@ -59,10 +59,12 @@
   Access the pod in browser: http://localhost:8080/
   ```
 
-  Run a deployment and expose as a LoadBalancer servie do that it gets an external ip to connect to. This automatcally creates a load balancer which is also available in Network services -> Load Balancing (and has the two cluster nodes associated with it). The service is visible both via kubectl and in console kubernetes Engine -> Services and Ingress.
+  Run a deployment and expose as a LoadBalancer servie do that it gets an external ip to connect to. This automatcally creates a load balancer which is also available in [Network services -> Load Balancing](https://console.cloud.google.com/net-services/loadbalancing/list/loadBalancers) (and has the two cluster nodes associated with it). The service is visible both via kubectl and in console kubernetes Engine -> Services and Ingress.
   ```
   # create a deployment 
   kubectl create deployment nginx --image=nginx:latest 
+
+  # check pods
   kg deployments -o yaml
   kubectl get pods
   

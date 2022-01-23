@@ -4,3 +4,4 @@
 * [CLI](CLI.md)
 * [Virtual Machines](VM.md)
 * [GKE](GKE.md)
+* [GKE monolith exercise](GKE-monolith-exercise.md)
