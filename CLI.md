@@ -24,3 +24,8 @@
   PROJECT_ID          NAME                PROJECT_NUMBER
   ....
   ```
+
+* Get active project  
+  ```
+  gcloud config get-value project
+  ```
