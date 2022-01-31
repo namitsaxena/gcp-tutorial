@@ -19,7 +19,7 @@
   * Using gcloud
     * Creating a service
       ```
-      gcloud run deploy nginx-hello-world-1 --image us-central1-docker.pkg.dev/nsx-sandbox/ns-docker-registry/nginx-hello:latest --max-instances=2 --port 80 --region us-central1 --allow-unauthenticated
+      gcloud run deploy nginx-hello-world-1 --image us-central1-docker.pkg.dev/nsx-sandbox/ns-docker-registry/nginx-hello:latest --min-instances=0 --max-instances=2 --port 80 --region us-central1 --allow-unauthenticated
       ```
 
       Interactive command prompt
