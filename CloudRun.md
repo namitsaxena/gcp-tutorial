@@ -52,7 +52,3 @@
 
   * Notes
     It may take several minutes to create a service, esp if it's failing. (typical issue could be incorrect container port in service which assumes it to be 8080 by default)
-
-
-gcloud run deploy --image us-central1-docker.pkg.dev/nsx-sandbox/ns-docker-registry/nginx-hello:latest --max-instances=2
-us-central1-docker.pkg.dev/nsx-sandbox/ns-docker-registry/nginx-hello@sha256:f5a0b2a5fe9af497c4a7c186ef6412bb91ff19d39d6ac24a4997eaed2b0bb334
