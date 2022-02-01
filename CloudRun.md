@@ -3,6 +3,11 @@
 ## Create a container and Push to GCR
    See [Containers.md](Containers.md)
 
+   Set region: useful (if not set you need to specify it with each command) 
+   ```
+   gcloud config set run/region us-central1
+   ```
+
 ## Create a Service
   * Using Console
     * specify the GCR image
@@ -38,6 +43,48 @@
 
       Deploying container to Cloud Run service [nginx-hello-tmp] in project [nsx-sandbox] region [us-central1]
       ```    
+    * creating a service using manifest yaml file
+      * create a yaml file
+        ```
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        metadata:
+          name: nginx-hello-yml
+          labels:
+            cloud.googleapis.com/location: us-central1
+          annotations:
+            autoscaling.knative.dev/maxScale: "100"
+        spec:
+          template:
+            spec:
+              containerConcurrency: 80
+              timeoutSeconds: 300
+              containers:
+              - image: us-central1-docker.pkg.dev/nsx-sandbox/ns-docker-registry/nginx-hello@sha256:f5a0b2a5fe9af497c4a7c186ef6412bb91ff19d39d6ac24a4997eaed2b0bb334
+                ports:
+                - name: http1
+                  containerPort: 80
+                resources:
+                resources:
+                  limits:
+                    cpu: "1"
+                    memory: 512Mi
+                # optional
+                env:
+                - name: LOG_LEVEL
+                  value: debug        
+        ``` 
+      * deploy
+        ```
+         gcloud run services replace cloud-run-nginx-hello.yaml --region us-central1
+        ```
+      * Allowing unauthenticated access: By default, the above will give the following error: Error: Forbidden Your client does not have permission to get URL / from this server, when accessed using it's URL.
+        To allow unauthenticated invocations, add "allUsers" as a principal and assign it the "Cloud Run invoker" role. See [Allowing public (unauthenticated) access](https://cloud.google.com/run/docs/authenticating/public#command-line)
+        ```
+        gcloud run services add-iam-policy-binding nginx-hello-yml --member="allUsers" --role="roles/run.invoker"
+        ```
+
+        
     * List services
       ```
       | => gcloud run services list

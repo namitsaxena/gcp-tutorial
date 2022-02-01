@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: nginx-hello-yml
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    autoscaling.knative.dev/maxScale: "100"
+spec:
+  template:
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+      - image: us-central1-docker.pkg.dev/nsx-sandbox/ns-docker-registry/nginx-hello@sha256:f5a0b2a5fe9af497c4a7c186ef6412bb91ff19d39d6ac24a4997eaed2b0bb334
+        ports:
+        - name: http1
+          containerPort: 80
+        resources:
+          limits:
+            cpu: "1"
+            memory: 512Mi
