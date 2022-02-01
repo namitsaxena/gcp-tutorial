@@ -99,6 +99,16 @@
       gcloud run services delete nginx-hello-tmp --region us-central1
       ```  
 
+  * Further reading
+    * [Cloud Run Docs](https://cloud.google.com/run/docs#docs)
+    * Build and deploy
+      * [Hello Cloud Run - cloud skill boost](https://www.cloudskillsboost.google/focuses/5162?parent=catalog)
+      * [Deploy a website with Cloud Run - codelabs](https://codelabs.developers.google.com/codelabs/cloud-run-deploy#0)
+      * [Deploying to Cloud Run](https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run#cloud-run_1)
+      * [Simplifying Continuous Deployment to Cloud Run with Cloud Build including Custom Domain Setup(SSL) - medium](https://medium.com/google-cloud/simplifying-continuous-deployment-to-cloud-run-with-cloud-build-including-custom-domain-setup-ssl-22d23bed5cd6)
+    * Setup a CD pipeline to continously deploy changes: setup cloud build to build a conatiner, setup triggers and automatically create a new revision  
+      
+
   * Notes
     * the service urls are https by default (http gets redirect to https). See [Invoking with an HTTPS Request](https://cloud.google.com/run/docs/triggering/https-request)
     * It may take several minutes to create a service if it's failing (see timeout value). (typical issue could be incorrect container port in service which assumes it to be 8080 by default)
