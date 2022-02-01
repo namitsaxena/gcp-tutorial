@@ -1,8 +1,9 @@
-# Containers and Registries
+# Cloud Run
 
 ## Create a container and Push to GCR
    See [Containers.md](Containers.md)
 
+## Configuration (Misc)
    Set region: useful (if not set you need to specify it with each command) 
    ```
    gcloud config set run/region us-central1
@@ -44,6 +45,7 @@
       Deploying container to Cloud Run service [nginx-hello-tmp] in project [nsx-sandbox] region [us-central1]
       ```    
     * creating a service using manifest yaml file
+      See [Copying a service](https://cloud.google.com/run/docs/managing/services#copy): typically using the exported yaml and renaming the service name is not sufficient and may give errors
       * create a yaml file
         ```
         apiVersion: serving.knative.dev/v1
@@ -98,4 +100,5 @@
       ```  
 
   * Notes
-    It may take several minutes to create a service, esp if it's failing. (typical issue could be incorrect container port in service which assumes it to be 8080 by default)
+    * the service urls are https by default (http gets redirect to https). See [Invoking with an HTTPS Request](https://cloud.google.com/run/docs/triggering/https-request)
+    * It may take several minutes to create a service if it's failing (see timeout value). (typical issue could be incorrect container port in service which assumes it to be 8080 by default)
