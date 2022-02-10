@@ -4,6 +4,7 @@
 * The policy is attached to a resource. You can attach **only one** IAM policy to each resource(ex: project, compute engine). This is sufficient since it can have multiple policy bindings.
   Because of above the mechanism is the same regardless of resource (ie project or storage or pubsub) - you call the same methods on each resource to view, add policy bindings, etc
 * Resources inherit the policies of all of their parent resources(transitive ie all the way up). It's a union of inherited and directly applied policies. 
+* policy changes sometimes take some time to take effect
 
 ### Roles
 
@@ -29,7 +30,7 @@ Can be both identities and resources.
   ```
 
 * Allow Impersonating this Service Account (See [this](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) and [this](https://cloud.google.com/iam/docs/manage-access-service-accounts#grant-single-role))
-  Let's grant the owner/principal user (me) to impersonate this service account (which is somewhat redundant since i already have access to all resources). To create short-lived credentials for service accounts, or to use the --impersonate-service-account flag for the Google Cloud CLI, you also need the Service Account Token Creator role. (worked event after removing this role? TBD)
+  Let's grant the owner/principal user (me) to impersonate this service account (which is somewhat redundant since i already have access to all resources). To create short-lived credentials for service accounts, or to use the --impersonate-service-account flag for the Google Cloud CLI, you also need the Service Account Token Creator role.
   ```
   gcloud iam service-accounts add-iam-policy-binding my-test-sa@nsx-sandbox.iam.gserviceaccount.com --member="user:my.email@gmail.com" --role="roles/iam.serviceAccountUser" --role="roles/iam.serviceAccountTokenCreator"
   ```
@@ -54,6 +55,11 @@ Can be both identities and resources.
   WARNING: This command is using service account impersonation. All API calls will be executed as [my-test-sa@nsx-sandbox.iam.gserviceaccount.com].
   ERROR: (gcloud.projects.list) PERMISSION_DENIED: Permission denied to enable service [cloudresourcemanager.googleapis.com]  
   ```
+
+* Impersonate with gsutil
+  ```
+  | => gsutil -i my-test-sa@nsx-sandbox.iam.gserviceaccount.com ls
+  ```  
  
 * View Access: To see who has access to your service account(it's a resource in this case), get the IAM policy for the service account (may not list inherited policies).
   ```
