@@ -18,6 +18,11 @@
   *       n********@gmail.com
   ```
 
+* List Organizations
+  ```
+  gcloud organizations list
+  ```
+
 * List Projects
   ```
   | => gcloud projects list
