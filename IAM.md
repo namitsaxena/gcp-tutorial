@@ -4,7 +4,11 @@
 * The policy is attached to a resource. You can attach **only one** IAM policy to each resource(ex: project, compute engine). This is sufficient since it can have multiple policy bindings.
   Because of above the mechanism is the same regardless of resource (ie project or storage or pubsub) - you call the same methods on each resource to view, add policy bindings, etc
 * Resources inherit the policies of all of their parent resources(transitive ie all the way up). It's a union of inherited and directly applied policies. 
+  * So to grant a user/service account access to all instances of a resource (ex all buckets in a project), add policy binding at 'project' (or folder, etc) for the user with  the role (say, roles/storage.admin)
+  * If you want to grant access for a specific instance of the resource (ex: one particular bucket), then add policy binding at the specific resource(for the specific bucket or cloud-run service. See below)
 * policy changes sometimes take some time to take effect
+* If you get ```PreconditionException: 412 At least one of the pre-conditions you specified did not hold.```, typically on setting iam policy via JSON, get the latest etag and make sure that's what you are setting the in JSON
+  
 
 ### Roles
 
@@ -58,10 +62,11 @@ Can be both identities and resources.
 
 * Impersonate with gsutil
   ```
-  | => gsutil -i my-test-sa@nsx-sandbox.iam.gserviceaccount.com ls
+  gsutil -i my-test-sa@nsx-sandbox.iam.gserviceaccount.com ls
+  gsutil -i my-test-sa@nsx-sandbox.iam.gserviceaccount.com ls gs://namits
   ```  
  
-* View Access: To see who has access to your service account(it's a resource in this case), get the IAM policy for the service account (may not list inherited policies).
+* View Access: To see **who has** access to your service account(it's a **resource** in this case - it does not show what the account can access), get the IAM policy for the service account (may not list inherited policies).
   ```
   gcloud iam service-accounts get-iam-policy my-test-sa@nsx-sandbox.iam.gserviceaccount.com
   ```
@@ -139,7 +144,67 @@ To get the IAM policy for the resource, run the get-iam-policy command for the r
   gcloud artifacts repositories get-iam-policy ns-docker-registry --location us-central1
   ```
 
+### Sample Scenario
+The following lists a simple scenario to create a new service account, grant our principal user(owner) to impersonate it and give it read access only to a specific bucket.
+This uses the basic commands described in the rest of the document
+
+1. create the service account
+   ```
+   gcloud iam service-accounts create my-bucket-sa --description="sa to read namits bucket" --display-name="my-bucket-sa-tmp"
+   ```
+2. Allow it to be impersonated by the owner (for testing)
+   ```
+   gcloud iam service-accounts add-iam-policy-binding my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com --member="user:my.email@gmail.com" --role="roles/iam.serviceAccountUser" --role="roles/iam.serviceAccountTokenCreator"   
+   ```
+3. create policy on one of the buckets to read a specific path
+   get the policy
+   ```
+   gsutil iam get gs://namits > bucket.json
+
+   ```
+
+   Add the binding to json file
+   ```
+    {
+      "members": [
+        "serviceAccount:my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com"
+      ],
+      "role": "roles/storage.objectViewer"
+    }
+   ```
+
+   Set the policy back
+   ```
+   gsutil iam set bucket.json gs://namits
+   ```
+4. Test the service account
+   doesn't allow you list all bucket, but you can do ls on the bucket (since the permissions are only for a specific bucket)
+   ```
+    | => gsutil -i my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com ls 
+    WARNING: This command is using service account impersonation. All API calls will be executed as [my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com].
+    AccessDeniedException: 403 my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com does not have storage.buckets.list access to the Google Cloud project.   
+
+    | => gsutil -i my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com ls gs://namits
+    WARNING: This command is using service account impersonation. All API calls will be executed as [my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com].
+    gs://namits/test.txt
+    gs://namits/data/   
+   ```
+
+   Note: specifying condition to restrict based on resource name **didn't work(below)** (as described [here](https://cloud.google.com/iam/docs/conditions-overview))
+   ```
+    ,{
+      "condition": {
+        "description": "Grant bucket service account access to only to a specific path in the bucket",
+        "expression": "resource.type == \"storage.googleapis.com/Bucket\" && resource.name.startsWith(\"projects/_/buckets/namits/data\")",
+        "title": "access to only data/ in the bucket"
+      },
+      "members": [
+        "serviceAccount:my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com"
+      ],
+      "role": "roles/storage.objectViewer"
+    }
+
+   ```
 
 
-## TODO
-  - check if iam defiend at project level has access to resources within the project, say a bucket?  
+  
