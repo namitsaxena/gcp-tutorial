@@ -1,5 +1,14 @@
 # GCP IAM
 
+## Index
+  + [Basic Notes](#basic-notes)
+  + [Roles](#roles)
+  + [Service Accounts](#service-accounts)
+  + [Manage access to projects, folders, and organizations](#manage-access-to-projects-folders-and-organizations)
+  + [Other Resources](#other-resources)
+  + [Sample Scenario](#sample-scenario)
+
+
 ### Basic Notes
 * The policy is attached to a resource. You can attach **only one** IAM policy to each resource(ex: project, compute engine). This is sufficient since it can have multiple policy bindings.
   Because of above the mechanism is the same regardless of resource (ie project or storage or pubsub) - you call the same methods on each resource to view, add policy bindings, etc
