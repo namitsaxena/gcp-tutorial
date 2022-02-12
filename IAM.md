@@ -91,6 +91,24 @@ Can be both identities and resources.
     ```
     gcloud iam service-accounts set-iam-policy my-test-sa@nsx-sandbox.iam.gserviceaccount.com sa-policy.json
     ```  
+* [Service Account Keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)
+  - [Creating service account keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating)
+    ```
+    gcloud iam service-accounts keys create my-test-sa.json --iam-account=my-test-sa@nsx-sandbox.iam.gserviceaccount.com
+    ```
+    This will create a key file my-test-sa.json in current dir(we can specify the path)
+  - listing keys
+    ```
+    gcloud iam service-accounts keys list --iam-account my-test-sa@nsx-sandbox.iam.gserviceaccount.com
+    ```  
+    This may list two keys. Apparently one key gets created with service account creation
+  - configuring gcloud with service account
+    [gcloud auth activate-service-account](https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account)
+    ```
+    gcloud auth activate-service-account my-test-sa@nsx-sandbox.iam.gserviceaccount.com --key-file=./my-test-sa.json
+    ```
+    Optionally, it's also preferable to run the above with a new gcloud configuration. Use 'gcloud init' to create a new configuration(cancel when it comes to authentication) and activate the above.
+    
 
 
 ### [Manage access to projects, folders, and organizations](https://cloud.google.com/iam/docs/granting-changing-revoking-access)
@@ -152,6 +170,14 @@ This uses the basic commands described in the rest of the document
    ```
    gcloud iam service-accounts create my-bucket-sa --description="sa to read namits bucket" --display-name="my-bucket-sa-tmp"
    ```
+2. create the service account key
+   ```
+   gcloud iam service-accounts keys create my-bucket-sa.json --iam-account=my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com
+   ```
+2. Configure gcloud to use the service account using the key generated above
+   ```
+   gcloud auth activate-service-account my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com --key-file=./my-bucket-sa.json
+   ```   
 2. Allow it to be impersonated by the owner (for testing)
    ```
    gcloud iam service-accounts add-iam-policy-binding my-bucket-sa@nsx-sandbox.iam.gserviceaccount.com --member="user:my.email@gmail.com" --role="roles/iam.serviceAccountUser" --role="roles/iam.serviceAccountTokenCreator"   
@@ -160,7 +186,6 @@ This uses the basic commands described in the rest of the document
    get the policy
    ```
    gsutil iam get gs://namits > bucket.json
-
    ```
 
    Add the binding to json file
@@ -204,7 +229,7 @@ This uses the basic commands described in the rest of the document
       "role": "roles/storage.objectViewer"
     }
 
-   ```
+   ```   
 
 
   
