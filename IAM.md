@@ -7,8 +7,9 @@
     - [Managing](#Managing)
     - [Impersonating](#Impersonating)
     - [Key Setup](#Key-Setup)
-  + [Manage access to projects, folders, and organizations](#manage-access-to-projects-folders-and-organizations)
-  + [Other Resources](#other-resources)
+  + [Managing Access](#managing-access)
+    - [Manage access to projects, folders, and organizations](#manage-access-to-projects-folders-and-organizations)
+    - [Manage access to Other Resources](#manage-access-to-other-esources)
   + [Sample Scenario](#sample-scenario)
 
 
@@ -126,8 +127,9 @@ Can be both identities and resources.
     Optionally, it's also preferable to run the above with a new gcloud configuration. Use 'gcloud init' to create a new configuration(cancel when it comes to authentication) and activate the above.
     
 
+### Managing Access
 
-### [Manage access to projects, folders, and organizations](https://cloud.google.com/iam/docs/granting-changing-revoking-access)
+#### [Manage access to projects, folders, and organizations](https://cloud.google.com/iam/docs/granting-changing-revoking-access)
 
 Only lists accounts/service accounts with access to the resource level specified (ie to project/folder/etc )
 NOTE: in our case the my-cloud-run SA only has access to GCS storage bucket (And not to the project itslef) so does not get listed here.
@@ -151,7 +153,7 @@ NOTE: in our case the my-cloud-run SA only has access to GCS storage bucket (And
     role: roles/viewer
   ```  
 
-### [Other Resources](https://cloud.google.com/iam/docs/manage-access-other-resources)
+#### [Manage access to Other Resources](https://cloud.google.com/iam/docs/manage-access-other-resources)
 In Identity and Access Management (IAM), access is managed through IAM policies. An IAM policy **is attached to a Google Cloud resource**. Each policy contains a collection of role bindings that associate one or more principals, such as users or service accounts, with an IAM role. These role bindings grant the specified roles to the principals, both on the resource that the policy is attached to and on all of that **resource's descendants**. 
 
 To get the IAM policy for the resource, run the get-iam-policy command for the resource. (Note: A resource's IAM policy **does not show any roles gained through policy inheritance**. To view inherited roles, use the Cloud Console.)
