@@ -9,7 +9,7 @@
     - [Key Setup](#Key-Setup)
   + [Managing Access](#managing-access)
     - [Manage access to projects, folders, and organizations](#manage-access-to-projects-folders-and-organizations)
-    - [Manage access to Other Resources](#manage-access-to-other-esources)
+    - [Manage access to Other Resources](#manage-access-to-other-resources)
   + [Sample Scenario](#sample-scenario)
 
 
