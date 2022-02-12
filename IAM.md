@@ -4,6 +4,9 @@
   + [Basic Notes](#basic-notes)
   + [Roles](#roles)
   + [Service Accounts](#service-accounts)
+    - [Managing](#Managing)
+    - [Impersonating](#Impersonating)
+    - [Key Setup](#Key-Setup)
   + [Manage access to projects, folders, and organizations](#manage-access-to-projects-folders-and-organizations)
   + [Other Resources](#other-resources)
   + [Sample Scenario](#sample-scenario)
@@ -31,6 +34,7 @@
 ### Service Accounts
 Can be both identities and resources.
 
+#### Managing
 * [Manage access to Service Accounts](https://cloud.google.com/iam/docs/manage-access-service-accounts)
 * [Creating and Managing](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
   ```
@@ -42,6 +46,7 @@ Can be both identities and resources.
   gcloud iam service-accounts list
   ```
 
+#### Impersonating
 * Allow Impersonating this Service Account (See [this](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) and [this](https://cloud.google.com/iam/docs/manage-access-service-accounts#grant-single-role))
   Let's grant the owner/principal user (me) to impersonate this service account (which is somewhat redundant since i already have access to all resources). To create short-lived credentials for service accounts, or to use the --impersonate-service-account flag for the Google Cloud CLI, you also need the Service Account Token Creator role.
   ```
@@ -100,6 +105,8 @@ Can be both identities and resources.
     ```
     gcloud iam service-accounts set-iam-policy my-test-sa@nsx-sandbox.iam.gserviceaccount.com sa-policy.json
     ```  
+
+#### Key Setup 
 * [Service Account Keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)
   - [Creating service account keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating)
     ```
