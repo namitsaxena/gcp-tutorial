@@ -48,6 +48,11 @@
       obj = get_object(bucket, "data.txt")
       print(f'Data: {obj}')
   ```
+  * requirements.txt (for above)
+    ```python
+    google-cloud-storage
+    ```
+
 
 
 ## References
