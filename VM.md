@@ -123,3 +123,40 @@ Notes and command line for testing basic features
   gcloud compute instances create-with-container instance-1 --project=nsx-sandbox --zone=us-central1-a --machine-type=e2-micro --network-interface=network-tier=PREMIUM,subnet=default --no-restart-on-failure --maintenance-policy=TERMINATE --preemptible --service-account=600132130055-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --tags=http-server --image=projects/cos-cloud/global/images/cos-81-12871-1317-7 --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=instance-1 --container-image=nginxdemos/hello --container-restart-policy=always --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=container-vm=cos-81-12871-1317-7
   ```
 
+
+### Networking
+If you have created your own VPC and subnet, you can select the same under Network interface section:
+* Select your VPC and subnet
+* The VM will be assigned a private IP from your subnet IP range (and an external IP address)
+  * The VM is still reachable over the public IP address.
+* External IP: is ephemeral by default but can be set to none.
+
+
+
+
+### Misc Configurations
+
+#### Installing HTTP Server
+
+* Installing httpd on RHEL
+  ```
+  #!/bin/bash -xe
+  sudo yum update -y
+  sudo yum install -y httpd
+  sudo service httpd start
+  sudo chkconfig httpd on
+  cd /var/www/html
+  sudo su
+  echo "This is a HTTP only Website running on host (${HOSTNAME})" > index.html
+  ```
+* Installing on Debian
+  ```
+  #!/bin/bash -xe
+  sudo apt update
+  sudo apt install apache2
+
+  # check status (optional)
+  # sudo systemctl status apache2
+  # default file is there - update if needed
+  # cd /var/www/html/index.html 
+  ```  
