@@ -41,6 +41,17 @@
     ```
     gcloud compute firewall-rules create my-vpc-allow-ssh --project=nsx-sandbox --network my-vpc --direction=INGRESS --priority=65534 --source-ranges=0.0.0.0/0 --action=ALLOW --rules=tcp:22 --description="Allows TCP connections from\ any source to any instance on the network using port 22"
     ```  
+  - allow http
+    ```
+    gcloud compute firewall-rules create my-vpc-allow-app-ports --network my-vpc --allow tcp:80,icmp
+    ```  
+    Created with priority of 1000
+    ```
+	Creating firewall...⠹Created [https://www.googleapis.com/compute/v1/projects/nsx-sandbox/global/firewalls/my-vpc-allow-app-ports].                                                                                                           
+	Creating firewall...done.                                                                                                                                                                                                                    
+	NAME                    NETWORK  DIRECTION  PRIORITY  ALLOW        DENY  DISABLED
+	my-vpc-allow-app-ports  my-vpc   INGRESS    1000      tcp:80,icmp        False    
+    ```
 
 ## Listing
 * VPC
