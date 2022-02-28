@@ -26,6 +26,10 @@ Notes and command line for testing basic features
   ```
   gcloud compute ssh --project=nsx-sandbox --zone=us-central1-a instance-1
   ```
+  If internet gateway is not accessible(say if the route is missing) then the above may not work. In that case, we may use below
+  ```
+  gcloud compute ssh --zone "us-central1-a" "instance-1"  --tunnel-through-iap --project "nsx-sandbox"
+  ```
 
 * List Instances: 
    ```
@@ -33,6 +37,7 @@ Notes and command line for testing basic features
    ```
 
 * Delete Instance: 
+   Multiple instances can be specified as long as they are in the same region
    ```
    gcloud compute instances delete instance-1
    ```
@@ -159,4 +164,8 @@ If you have created your own VPC and subnet, you can select the same under Netwo
   # sudo systemctl status apache2
   # default file is there - update if needed
   # cd /var/www/html/index.html 
+  ```  
+* List zones/locations
+  ```
+  gcloud compute zones list | grep us-east
   ```  
