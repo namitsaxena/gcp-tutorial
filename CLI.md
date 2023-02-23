@@ -23,6 +23,10 @@
   ```
 * List the account your are authenticated to
   ```
+  gcloud config get-value account
+  ```
+
+  ```
   | => gcloud auth list
       Credentialed Accounts
   ACTIVE  ACCOUNT
@@ -42,4 +46,14 @@
 * Get active project  
   ```
   gcloud config get-value project
+  ```
+
+* Configuration Sample: create and configure a new configuration
+  ```
+  gcloud config configurations create test-cfg --activate
+  gcloud config set account my.email@gmail.com
+  gcloud config set project nsx-sandbox
+  gcloud config set compute/region us-central1
+  gcloud config set compute/zone us-central1-a
+  gcloud config list  
   ```

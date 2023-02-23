@@ -155,10 +155,11 @@ If you have created your own VPC and subnet, you can select the same under Netwo
   echo "This is a HTTP only Website running on host (${HOSTNAME})" > index.html
   ```
 * Installing on Debian
+  Doesn't need sudo from startup script
   ```
   #!/bin/bash -xe
-  sudo apt update
-  sudo apt install apache2
+  apt update
+  apt install apache2
 
   # check status (optional)
   # sudo systemctl status apache2

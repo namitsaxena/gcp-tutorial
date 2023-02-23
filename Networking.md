@@ -213,6 +213,14 @@ Manage firewalls and tags using tags.
   gcloud compute instances delete instance-2
   ```  
 
+* **NOTE** on connectivity
+  * IAM connectivity doesn't require internet access and can work over private ip addresses, hence route to interner gateway is not needed. However the firewall still needs to allow SSH access on port 22 to allow connection to a specific VM. In our example above (all created above)
+    * route for internet access is governed by tag 'my-internet-access'
+    * firewall for SSH,HTTP/s,ICP is governed by tag 'myaccess'
+      * Alternatively to allow SSH, etc only by IAP: allows ingress traffic from the IP range 35.235.240.0/20. This range contains all IP addresses that IAP uses for TCP forwarding.
+      * See [Connecting through Identity-Aware Proxy (IAP) for TCP](https://cloud.google.com/compute/docs/instances/connecting-advanced#cloud_iap) for details
+  * there's are no public and private subnets since access to both is controlled by tags
+
 ## Misc ToDo's
   * create shared project to host VPCs
   * Install NAT Gateway to allow installing software

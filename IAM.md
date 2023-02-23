@@ -79,7 +79,7 @@ Can be both identities and resources.
   ```
   gsutil -i my-test-sa@nsx-sandbox.iam.gserviceaccount.com ls
   gsutil -i my-test-sa@nsx-sandbox.iam.gserviceaccount.com ls gs://namits
-  ```  
+  ``` 
  
 * View Access: To see **who has** access to your service account(it's a **resource** in this case - it does not show what the account can access), get the IAM policy for the service account (may not list inherited policies).
   ```
@@ -105,7 +105,9 @@ Can be both identities and resources.
   - set the new policy file
     ```
     gcloud iam service-accounts set-iam-policy my-test-sa@nsx-sandbox.iam.gserviceaccount.com sa-policy.json
-    ```  
+    ```
+* Have a Service Account Impersonate another Service account
+  - Check [impersonating_sa.sh](./impersonating_sa.sh)    
 
 #### Key Setup 
 * [Service Account Keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)
